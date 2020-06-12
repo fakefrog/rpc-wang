@@ -1,7 +1,6 @@
 package com.wang.server.service;
 
-import com.wang.starter.demo.TestService;
-import com.wang.starter.rpc.RpcComponent;
+import com.wang.common.demo.TestService;
 
 /**
  * <p>Package:com.wang.starter.service</p>

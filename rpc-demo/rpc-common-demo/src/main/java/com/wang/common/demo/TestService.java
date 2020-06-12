@@ -1,4 +1,4 @@
-package com.wang.starter.demo;
+package com.wang.common.demo;
 
 /**
  * <p>Package:com.wang.starter.service</p>

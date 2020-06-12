@@ -1,13 +1,13 @@
-package com.wang.rpcall;
+package com.wang.starter.rpc;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class RpcAllApplication {
+public class RpcStarterApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(RpcAllApplication.class, args);
+        SpringApplication.run(RpcStarterApplication.class, args);
     }
 
 }

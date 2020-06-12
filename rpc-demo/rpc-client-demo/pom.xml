@@ -11,7 +11,7 @@
     </parent>
     <groupId>com.wang</groupId>
     <artifactId>rpc-client-demo</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>1.0.0-SNAPSHOT</version>
     <name>rpc-client-demo</name>
     <description>Demo project for Spring Boot</description>
 
@@ -53,7 +53,6 @@
             <groupId>com.wang.rpc</groupId>
             <artifactId>rpc-starter</artifactId>
             <version>1.0.0-SNAPSHOT</version>
-            <scope>compile</scope>
         </dependency>
 
         <dependency>
@@ -66,7 +65,6 @@
             <groupId>org.springframework</groupId>
             <artifactId>spring-web</artifactId>
             <version>5.2.6.RELEASE</version>
-            <scope>compile</scope>
         </dependency>
 
     </dependencies>

@@ -1,8 +1,5 @@
 package com.wang.demo.client.controller;
 
-import com.wang.demo.demo.ITestService;
-import com.wang.demo.demo.TestService;
-import com.wang.demo.rpc.config.annotation.RpcReference;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
