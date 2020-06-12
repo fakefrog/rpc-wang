@@ -1,7 +1,9 @@
-package com.wang.starter.rpc.rpckids.demo;
+package com.wang.demo.client.config;
 
-import com.wang.starter.rpc.rpckids.client.RPCClient;
-import com.wang.starter.rpc.rpckids.client.RPCException;
+import com.wang.demo.rpc.rpckids.client.RPCClient;
+import com.wang.demo.rpc.rpckids.client.RPCException;
+import com.wang.demo.rpc.rpckids.demo.ExpRequest;
+import com.wang.demo.rpc.rpckids.demo.ExpResponse;
 
 public class DemoClient {
 
