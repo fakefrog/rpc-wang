@@ -35,11 +35,11 @@ public class RPCServer {
 
     private EventLoopGroup group;
 
-    private MessageCollector collector;
+    private ServerMessageCollector collector;
 
     private Channel serverChannel;
 
-    public RPCServer(String ip, int port, int ioThreads, MessageCollector collector ) {
+    public RPCServer(String ip, int port, int ioThreads, ServerMessageCollector collector ) {
         this.ip = ip;
         this.port = port;
         this.ioThreads = ioThreads;

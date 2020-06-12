@@ -1,4 +1,4 @@
-package com.wang.starter.rpc;
+package com.wang.starter.rpc.config.server;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 

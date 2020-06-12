@@ -17,6 +17,14 @@ public class MessageDecoder extends ReplayingDecoder<MessageInput> {
 		out.add(new MessageInput(type, requestId, content));
 	}
 
+/*	@Override
+	protected void decode(ChannelHandlerContext ctx, ByteBuf in, List<Object> out) throws Exception {
+		String requestId = readStr(in);
+		String type = readStr(in);
+		String content = readStr(in);
+		out.add(new MessageInput(type, requestId, content));
+	}*/
+
 	private String readStr(ByteBuf in) {
 		int len = in.readInt();
 		if (len < 0 || len > (1 << 20)) {

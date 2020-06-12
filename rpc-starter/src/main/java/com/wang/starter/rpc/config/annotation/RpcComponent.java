@@ -1,4 +1,4 @@
-package com.wang.starter.rpc;
+package com.wang.starter.rpc.config.annotation;
 
 import org.springframework.stereotype.Component;
 
@@ -21,7 +21,6 @@ import java.lang.annotation.Target;
 @Documented
 @Component
 public @interface RpcComponent {
-
 
     String name();
 

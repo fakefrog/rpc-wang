@@ -16,9 +16,9 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 
 @Sharable
-public class MessageCollector extends ChannelInboundHandlerAdapter {
+public class ClientMessageCollector extends ChannelInboundHandlerAdapter {
 
-	private final static Logger LOG = LoggerFactory.getLogger(MessageCollector.class);
+	private final static Logger LOG = LoggerFactory.getLogger(ClientMessageCollector.class);
 
 	private MessageRegistry registry;
 	private RPCClient client;
@@ -27,7 +27,7 @@ public class MessageCollector extends ChannelInboundHandlerAdapter {
 
 	private Throwable ConnectionClosed = new Exception("starter connection not active error");
 
-	public MessageCollector(MessageRegistry registry, RPCClient client) {
+	public ClientMessageCollector(MessageRegistry registry, RPCClient client) {
 		this.registry = registry;
 		this.client = client;
 	}

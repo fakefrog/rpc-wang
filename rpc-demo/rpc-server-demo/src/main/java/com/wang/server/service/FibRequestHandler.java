@@ -1,6 +1,6 @@
 package com.wang.server.service;
 
-import com.wang.starter.rpc.RpcComponent;
+import com.wang.starter.rpc.config.annotation.RpcComponent;
 import com.wang.starter.rpc.rpckids.common.IMessageHandler;
 import com.wang.starter.rpc.rpckids.common.MessageOutput;
 

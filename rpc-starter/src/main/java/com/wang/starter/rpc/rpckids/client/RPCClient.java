@@ -29,7 +29,7 @@ public class RPCClient {
 	private int port;
 	private Bootstrap bootstrap;
 	private EventLoopGroup group;
-	private MessageCollector collector;
+	private ClientMessageCollector collector;
 	private boolean started;
 	private boolean stopped;
 
@@ -70,7 +70,7 @@ public class RPCClient {
 		group = new NioEventLoopGroup(1);
 		bootstrap.group(group);
 		MessageEncoder encoder = new MessageEncoder();
-		collector = new MessageCollector(registry, this);
+		collector = new ClientMessageCollector(registry, this);
 		bootstrap.channel(NioSocketChannel.class).handler(new ChannelInitializer<SocketChannel>() {
 
 			@Override

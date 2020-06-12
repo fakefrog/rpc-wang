@@ -1,6 +1,6 @@
-package com.wang.starter.rpc;
+package com.wang.starter.rpc.config.server;
 
-import com.wang.starter.rpc.rpckids.server.MessageCollector;
+import com.wang.starter.rpc.rpckids.server.ServerMessageCollector;
 import com.wang.starter.rpc.rpckids.server.RPCServer;
 
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -9,10 +9,8 @@ import org.springframework.context.annotation.Configuration;
 
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.annotation.Resource;
 
@@ -45,8 +43,8 @@ public class RpcConfiguration {
     }
 
     @Bean
-    public MessageCollector messageCollector() {
-        return new MessageCollector(rpcThreadPoolExecutor());
+    public ServerMessageCollector messageCollector() {
+        return new ServerMessageCollector(rpcThreadPoolExecutor());
     }
 
     @Bean

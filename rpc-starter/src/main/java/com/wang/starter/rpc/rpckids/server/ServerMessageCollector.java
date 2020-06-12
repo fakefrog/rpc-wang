@@ -4,28 +4,21 @@ import com.wang.starter.rpc.rpckids.common.IMessageHandler;
 import com.wang.starter.rpc.rpckids.common.MessageHandlers;
 import com.wang.starter.rpc.rpckids.common.MessageInput;
 import com.wang.starter.rpc.rpckids.common.MessageRegistry;
+import com.wang.starter.rpc.rpckids.common.rpc.RpcInvocation;
+import com.wang.starter.rpc.rpckids.common.rpc.RpcRegistry;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
-
-import java.util.concurrent.ArrayBlockingQueue;
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.ThreadPoolExecutor.CallerRunsPolicy;
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 import io.netty.channel.ChannelHandler.Sharable;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
+import lombok.extern.slf4j.Slf4j;
 
 @Sharable
-public class MessageCollector extends ChannelInboundHandlerAdapter {
-
-    private final static Logger LOG = LoggerFactory.getLogger(MessageCollector.class);
+@Slf4j
+public class ServerMessageCollector extends ChannelInboundHandlerAdapter {
 
     private ThreadPoolExecutor executor;
 
@@ -36,18 +29,31 @@ public class MessageCollector extends ChannelInboundHandlerAdapter {
 
     private MessageRegistry registry = new MessageRegistry();
 
+    private RpcRegistry rpcRegistry = new RpcRegistry();
+
     private ReentrantReadWriteLock readWriteLock = new ReentrantReadWriteLock();
 
-    public MessageCollector(ThreadPoolExecutor executor) {
+    public ServerMessageCollector(ThreadPoolExecutor executor) {
         this.executor = executor;
         handlers.defaultHandler(new DefaultHandler());
     }
 
-    public MessageCollector register(String type, Class<?> reqClass, IMessageHandler<?> handler) {
+    public ServerMessageCollector register(String type, Class<?> reqClass, IMessageHandler<?> handler) {
         try {
             readWriteLock.writeLock().lock();
             registry.register(type, reqClass);
             handlers.register(type, handler);
+        } finally {
+            readWriteLock.writeLock().unlock();
+        }
+        return this;
+    }
+
+    public ServerMessageCollector registerBean(Object bean) {
+        try {
+            readWriteLock.writeLock().lock();
+            Class<?> ainterface = bean.getClass().getInterfaces()[0];
+            rpcRegistry.register(ainterface, bean);
         } finally {
             readWriteLock.writeLock().unlock();
         }
@@ -66,18 +72,20 @@ public class MessageCollector extends ChannelInboundHandlerAdapter {
 
     @Override
     public void channelActive(ChannelHandlerContext ctx) {
-        LOG.debug("connection comes");
+        log.debug("connection comes");
     }
 
     @Override
     public void channelInactive(ChannelHandlerContext ctx) {
-        LOG.debug("connection leaves");
+        log.debug("connection leaves");
     }
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) {
         if (msg instanceof MessageInput) {
             this.executor.execute(() -> this.handleMessage(ctx, (MessageInput) msg));
+        } else if (msg instanceof RpcInvocation) {
+            this.executor.execute(() -> this.handleRpcMessage(ctx, (RpcInvocation) msg));
         }
     }
 
@@ -103,9 +111,32 @@ public class MessageCollector extends ChannelInboundHandlerAdapter {
         }
     }
 
+    private void handleRpcMessage(ChannelHandlerContext ctx, RpcInvocation rpcInvocation) {
+        try {
+            readWriteLock.readLock().lock();
+            // 业务逻辑在这里
+            Object object = rpcRegistry.get(rpcInvocation.getInvokeInterface());
+            if (object == null) {
+                //报错
+                //因为没有数据
+                ctx.close();
+                return;
+            }
+            try {
+                Object result = rpcInvocation.getMethod().invoke(object, rpcInvocation.getArgs());
+                ctx.writeAndFlush(result);
+            } catch (Exception e) {
+                log.error("error", e);
+                ctx.close();
+            }
+        } finally {
+            readWriteLock.readLock().unlock();
+        }
+    }
+
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
-        LOG.warn("connection error", cause);
+        log.warn("connection error", cause);
     }
 
 }
