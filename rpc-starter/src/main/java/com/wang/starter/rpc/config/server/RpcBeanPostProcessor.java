@@ -1,7 +1,8 @@
-package com.wang.starter.rpc;
+package com.wang.starter.rpc.config.server;
 
+import com.wang.starter.rpc.config.annotation.RpcComponent;
 import com.wang.starter.rpc.rpckids.common.IMessageHandler;
-import com.wang.starter.rpc.rpckids.server.MessageCollector;
+import com.wang.starter.rpc.rpckids.server.ServerMessageCollector;
 
 import org.springframework.aop.support.AopUtils;
 import org.springframework.beans.BeansException;
@@ -21,9 +22,9 @@ import javax.annotation.Resource;
 public class RpcBeanPostProcessor implements BeanPostProcessor {
 
     @Resource
-    private MessageCollector messageCollector;
+    private ServerMessageCollector messageCollector;
 
-    public RpcBeanPostProcessor(MessageCollector messageCollector) {
+    public RpcBeanPostProcessor(ServerMessageCollector messageCollector) {
         this.messageCollector = messageCollector;
     }
 

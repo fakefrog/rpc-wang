@@ -1,5 +1,6 @@
 package com.wang.starter.rpc.rpckids.server;
 
+import com.wang.starter.rpc.rpckids.client.MessageCollector;
 import com.wang.starter.rpc.rpckids.common.IMessageHandler;
 import com.wang.starter.rpc.rpckids.common.MessageHandlers;
 import com.wang.starter.rpc.rpckids.common.MessageInput;
@@ -23,9 +24,9 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 
 @Sharable
-public class MessageCollector extends ChannelInboundHandlerAdapter {
+public class ServerMessageCollector extends ChannelInboundHandlerAdapter {
 
-    private final static Logger LOG = LoggerFactory.getLogger(MessageCollector.class);
+    private final static Logger LOG = LoggerFactory.getLogger(ServerMessageCollector.class);
 
     private ThreadPoolExecutor executor;
 
@@ -38,12 +39,12 @@ public class MessageCollector extends ChannelInboundHandlerAdapter {
 
     private ReentrantReadWriteLock readWriteLock = new ReentrantReadWriteLock();
 
-    public MessageCollector(ThreadPoolExecutor executor) {
+    public ServerMessageCollector(ThreadPoolExecutor executor) {
         this.executor = executor;
         handlers.defaultHandler(new DefaultHandler());
     }
 
-    public MessageCollector register(String type, Class<?> reqClass, IMessageHandler<?> handler) {
+    public ServerMessageCollector register(String type, Class<?> reqClass, IMessageHandler<?> handler) {
         try {
             readWriteLock.writeLock().lock();
             registry.register(type, reqClass);

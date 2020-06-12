@@ -1,4 +1,4 @@
-package com.wang.starter.rpc;
+package com.wang.starter.rpc.config.annotation;
 
 import org.springframework.stereotype.Component;
 

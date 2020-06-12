@@ -1,6 +1,6 @@
 package com.wang.server;
 
-import com.wang.starter.rpc.EnableRpc;
+import com.wang.starter.rpc.config.annotation.EnableRpc;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

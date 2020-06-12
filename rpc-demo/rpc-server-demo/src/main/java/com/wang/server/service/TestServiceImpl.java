@@ -1,6 +1,6 @@
 package com.wang.server.service;
 
-import com.wang.common.demo.TestService;
+import com.wang.common.demo.ITestService;
 
 /**
  * <p>Package:com.wang.starter.service</p>
@@ -11,7 +11,7 @@ import com.wang.common.demo.TestService;
  * @date 2020/6/12 3:00
  */
 //@RpcComponent(name = "testServiceImpl")
-public class TestServiceImpl implements TestService {
+public class TestServiceImpl implements ITestService {
 
     @Override
     public String fly() {

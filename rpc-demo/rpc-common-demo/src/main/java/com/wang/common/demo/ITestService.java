@@ -8,7 +8,7 @@ package com.wang.common.demo;
  * @author baiyundou
  * @date 2020/6/12 2:44
  */
-public interface TestService {
+public interface ITestService {
 
     String fly();
 
