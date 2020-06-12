@@ -13,8 +13,10 @@
     <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
     <modules>
-        <module>rpc-demo</module>
+<!--        <module>rpc-demo</module>-->
         <module>rpc-demo/rpc-server-demo</module>
+        <module>rpc-demo/rpc-client-demo</module>
+        <module>rpc-demo/rpc-common-demo</module>
     </modules>
 
     <dependencies>
