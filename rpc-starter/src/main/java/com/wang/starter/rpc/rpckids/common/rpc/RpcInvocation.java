@@ -17,7 +17,7 @@ import lombok.Data;
 @Data
 public class RpcInvocation {
 
-    private Map<String,Object> attachMents = new HashMap<>();
+    private Map<String,Object> attachments = new HashMap<>();
 
     private Class<?> invokeInterface;
 
