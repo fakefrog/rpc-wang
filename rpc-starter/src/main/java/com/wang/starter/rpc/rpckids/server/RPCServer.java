@@ -64,7 +64,7 @@ public class RPCServer {
         bootstrap.option(ChannelOption.SO_BACKLOG, 100).option(ChannelOption.SO_REUSEADDR, true)
                 .option(ChannelOption.TCP_NODELAY, true).childOption(ChannelOption.SO_KEEPALIVE, true);
         serverChannel = bootstrap.bind(this.ip, this.port).channel();
-        LOG.warn("server started @ {}:{}\n", ip, port);
+        LOG.warn("rpc server started @ {}:{}\n", ip, port);
     }
 
     public void stop() {
