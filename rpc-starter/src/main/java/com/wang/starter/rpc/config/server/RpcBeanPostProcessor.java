@@ -22,10 +22,10 @@ import javax.annotation.Resource;
 public class RpcBeanPostProcessor implements BeanPostProcessor {
 
     @Resource
-    private ServerMessageCollector messageCollector;
+    private ServerMessageCollector serverMessageCollector;
 
-    public RpcBeanPostProcessor(ServerMessageCollector messageCollector) {
-        this.messageCollector = messageCollector;
+    public RpcBeanPostProcessor(ServerMessageCollector serverMessageCollector) {
+        this.serverMessageCollector = serverMessageCollector;
     }
 
     @Nullable
@@ -36,7 +36,7 @@ public class RpcBeanPostProcessor implements BeanPostProcessor {
 //        }
         RpcComponent annotation = clazz.getAnnotation(RpcComponent.class);
         if (annotation != null && bean instanceof IMessageHandler) {
-            messageCollector.register(annotation.name(), annotation.requestType(), (IMessageHandler)bean);
+            serverMessageCollector.register(annotation.name(), annotation.requestType(), (IMessageHandler)bean);
         }
         return bean;
     }
