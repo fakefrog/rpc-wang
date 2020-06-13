@@ -6,6 +6,7 @@ import java.util.Map;
 public class MessageHandlers {
 
 	private Map<String, IMessageHandler<?>> handlers = new HashMap<>();
+
 	private IMessageHandler<MessageInput> defaultHandler;
 
 	public void register(String type, IMessageHandler<?> handler) {

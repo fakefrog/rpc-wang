@@ -1,4 +1,4 @@
-package com.wang.starter.rpc.rpckids.demo;
+package com.wang.common.demo.domain;
 
 public class ExpResponse {
 

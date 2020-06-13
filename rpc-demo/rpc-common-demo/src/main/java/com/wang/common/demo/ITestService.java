@@ -1,7 +1,7 @@
 package com.wang.common.demo;
 
-import com.wang.starter.rpc.rpckids.demo.ExpRequest;
-import com.wang.starter.rpc.rpckids.demo.ExpResponse;
+import com.wang.common.demo.domain.ExpRequest;
+import com.wang.common.demo.domain.ExpResponse;
 
 /**
  * <p>Package:com.wang.starter.service</p>

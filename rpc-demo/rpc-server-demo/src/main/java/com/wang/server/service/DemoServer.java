@@ -1,8 +1,5 @@
 package com.wang.server.service;
 
-import com.wang.starter.rpc.rpckids.demo.ExpRequest;
-import com.wang.starter.rpc.rpckids.server.RPCServer;
-
 public class DemoServer {
 
 	public static void main(String[] args) {

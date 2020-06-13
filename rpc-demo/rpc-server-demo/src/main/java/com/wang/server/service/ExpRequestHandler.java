@@ -3,8 +3,8 @@ package com.wang.server.service;
 import com.wang.starter.rpc.config.annotation.RpcComponent;
 import com.wang.starter.rpc.rpckids.common.IMessageHandler;
 import com.wang.starter.rpc.rpckids.common.MessageOutput;
-import com.wang.starter.rpc.rpckids.demo.ExpRequest;
-import com.wang.starter.rpc.rpckids.demo.ExpResponse;
+import com.wang.common.demo.domain.ExpRequest;
+import com.wang.common.demo.domain.ExpResponse;
 
 import io.netty.channel.ChannelHandlerContext;
 

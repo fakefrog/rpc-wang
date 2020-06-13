@@ -3,8 +3,8 @@ package com.wang.demo.client.config;
 
 import com.wang.starter.rpc.rpckids.client.RPCClient;
 import com.wang.starter.rpc.rpckids.client.RPCException;
-import com.wang.starter.rpc.rpckids.demo.ExpRequest;
-import com.wang.starter.rpc.rpckids.demo.ExpResponse;
+import com.wang.common.demo.domain.ExpRequest;
+import com.wang.common.demo.domain.ExpResponse;
 
 public class DemoClient {
 

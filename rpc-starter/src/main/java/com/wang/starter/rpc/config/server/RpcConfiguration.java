@@ -37,9 +37,13 @@ public class RpcConfiguration {
         return rpcServer;
     }
 
-    @Bean
+/*    @Bean
     public RpcBeanPostProcessor rpcBeanPostProcessor() {
         return new RpcBeanPostProcessor(messageCollector());
+    }*/
+    @Bean
+    public RpcBeanPostProcessor rpcBeanPostProcessor() {
+        return new RpcBeanPostProcessor();
     }
 
     @Bean

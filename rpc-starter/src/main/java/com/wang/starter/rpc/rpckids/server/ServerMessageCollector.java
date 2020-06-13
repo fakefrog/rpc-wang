@@ -6,6 +6,7 @@ import com.wang.starter.rpc.rpckids.common.MessageInput;
 import com.wang.starter.rpc.rpckids.common.MessageRegistry;
 import com.wang.starter.rpc.rpckids.common.rpc.RpcInvocation;
 import com.wang.starter.rpc.rpckids.common.rpc.RpcRegistry;
+import com.wang.starter.rpc.rpckids.common.rpc.RpcResult;
 
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
@@ -50,13 +51,13 @@ public class ServerMessageCollector extends ChannelInboundHandlerAdapter {
     }
 
     public ServerMessageCollector registerBean(Object bean) {
+        Class<?> ainterface = null;
         try {
-            readWriteLock.writeLock().lock();
-            Class<?> ainterface = bean.getClass().getInterfaces()[0];
-            rpcRegistry.register(ainterface, bean);
-        } finally {
-            readWriteLock.writeLock().unlock();
+            ainterface = bean.getClass().getInterfaces()[0];
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+        rpcRegistry.register(ainterface, bean);
         return this;
     }
 
@@ -124,7 +125,11 @@ public class ServerMessageCollector extends ChannelInboundHandlerAdapter {
             }
             try {
                 Object result = rpcInvocation.getMethod().invoke(object, rpcInvocation.getArgs());
-                ctx.writeAndFlush(result);
+                RpcResult rpcResult = new RpcResult();
+                rpcResult.setResult(result);
+                rpcResult.setRequestId(rpcInvocation.getRequestId());
+                rpcResult.setAttachments(rpcInvocation.getAttachments());
+                ctx.writeAndFlush(rpcResult);
             } catch (Exception e) {
                 log.error("error", e);
                 ctx.close();

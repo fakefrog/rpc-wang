@@ -1,11 +1,11 @@
 package com.wang.starter.rpc.rpckids.common.rpc;
 
-import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class RpcRegistry {
 
-    private Map<Class<?>, Object> registryClasses = new HashMap<>();
+    private Map<Class<?>, Object> registryClasses = new ConcurrentHashMap<>();
 
     public void register(Class<?> type, Object object) {
         registryClasses.put(type, object);
