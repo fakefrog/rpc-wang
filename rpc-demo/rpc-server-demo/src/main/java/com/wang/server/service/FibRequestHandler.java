@@ -1,14 +1,15 @@
+/*
 package com.wang.server.service;
 
-import com.wang.starter.rpc.config.annotation.RpcComponent;
-import com.wang.starter.rpc.rpckids.common.IMessageHandler;
-import com.wang.starter.rpc.rpckids.common.MessageOutput;
+import com.wang.starter.rpc.config.common.IMessageHandler;
+import com.wang.starter.rpc.config.common.MessageOutput;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import io.netty.channel.ChannelHandlerContext;
 
+*/
 /**
  * <p>Package:com.wang.starter.starter.starter.rpckids.demo</p>
  * <p>Description: </p>
@@ -16,8 +17,9 @@ import io.netty.channel.ChannelHandlerContext;
  *
  * @author baiyundou
  * @date 2020/6/12 2:35
- */
-@RpcComponent(name = "fib", requestType = Integer.class)
+ *//*
+
+//@RpcComponent(name = "fib", requestType = Integer.class)
 public class FibRequestHandler implements IMessageHandler<Integer> {
 
     private List<Long> fibs = new ArrayList<>();
@@ -37,3 +39,4 @@ public class FibRequestHandler implements IMessageHandler<Integer> {
     }
 
 }
+*/

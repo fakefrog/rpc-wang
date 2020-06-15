@@ -3,6 +3,8 @@ package com.wang.common.demo;
 import com.wang.common.demo.domain.ExpRequest;
 import com.wang.common.demo.domain.ExpResponse;
 
+import java.util.List;
+
 /**
  * <p>Package:com.wang.starter.service</p>
  * <p>Description: </p>
@@ -15,7 +17,9 @@ public interface ITestService {
 
     String fly();
 
-    ExpResponse exp(ExpRequest message);
+    ExpResponse exp(ExpRequest expRequest);
+
+    ExpResponse exp(List<ExpRequest> expRequest);
 
 
 }

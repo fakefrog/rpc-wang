@@ -1,10 +1,9 @@
-package com.wang.starter.rpc.rpckids.client;
+package com.wang.starter.rpc.config.client;
 
-import com.wang.starter.rpc.rpckids.common.MessageDecoder;
-import com.wang.starter.rpc.rpckids.common.MessageEncoder;
-import com.wang.starter.rpc.rpckids.common.MessageOutput;
-import com.wang.starter.rpc.rpckids.common.MessageRegistry;
-import com.wang.starter.rpc.rpckids.common.RequestId;
+import com.wang.starter.rpc.common.RequestId;
+import com.wang.starter.rpc.common.rpc.RpcClientDecoder;
+import com.wang.starter.rpc.common.rpc.RpcClientEncoder;
+import com.wang.starter.rpc.common.rpc.RpcInvocation;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,9 +20,10 @@ import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.handler.timeout.ReadTimeoutHandler;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class RPCClient {
-    private final static Logger LOG = LoggerFactory.getLogger(RPCClient.class);
 
     private String ip;
 
@@ -39,8 +39,6 @@ public class RPCClient {
 
     private boolean stopped;
 
-    private MessageRegistry registry = new MessageRegistry();
-
     public RPCClient(String ip, int port) {
         this.ip = ip;
         this.port = port;
@@ -48,22 +46,22 @@ public class RPCClient {
     }
 
     public RPCClient rpc(String type, Class<?> reqClass) {
-        registry.register(type, reqClass);
+//        registry.register(type, reqClass);
         return this;
     }
 
-    public <T> RpcFuture<T> sendAsync(String type, Object payload) {
+    public <T> RpcFuture<T> sendRpcInvocationAsync(RpcInvocation rpcInvocation) {
         if (!started) {
             connect();
             started = true;
         }
-        String requestId = RequestId.next();
-        MessageOutput output = new MessageOutput(requestId, type, payload);
-        return collector.send(output);
+        rpcInvocation.setRequestId(RequestId.next());
+        return collector.send(rpcInvocation);
     }
 
-    public <T> T send(String type, Object payload) {
-        RpcFuture<T> future = sendAsync(type, payload);
+
+    public <T> T send(RpcInvocation rpcInvocation) {
+        RpcFuture<T> future = sendRpcInvocationAsync(rpcInvocation);
         try {
             return future.get();
         } catch (InterruptedException | ExecutionException e) {
@@ -75,16 +73,21 @@ public class RPCClient {
         bootstrap = new Bootstrap();
         group = new NioEventLoopGroup(1);
         bootstrap.group(group);
-        MessageEncoder encoder = new MessageEncoder();
-        collector = new ClientMessageCollector(registry, this);
+        collector = new ClientMessageCollector(this);
         bootstrap.channel(NioSocketChannel.class).handler(new ChannelInitializer<SocketChannel>() {
 
             @Override
             protected void initChannel(SocketChannel ch) throws Exception {
                 ChannelPipeline pipe = ch.pipeline();
                 pipe.addLast(new ReadTimeoutHandler(60));
-                pipe.addLast(new MessageDecoder());
-                pipe.addLast(encoder);
+
+                //inbound
+                pipe.addLast(new RpcClientDecoder());
+
+                //outbound
+                pipe.addLast(new RpcClientEncoder());
+
+                //inbound
                 pipe.addLast(collector);
             }
 
@@ -109,7 +112,7 @@ public class RPCClient {
                     reconnect();
                 }, 1, TimeUnit.SECONDS);
             }
-            LOG.error("connect {}:{} failure", ip, port, future.cause());
+            log.error("connect {}:{} failure", ip, port, future.cause());
         });
     }
 

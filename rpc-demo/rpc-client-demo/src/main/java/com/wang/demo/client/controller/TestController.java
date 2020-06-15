@@ -22,7 +22,7 @@ public class TestController {
     private ITestService testService;
 
     @RequestMapping("/test")
-    public String rpcFlows(){
+    public String rpcFlows() {
         return "";
     }
 }

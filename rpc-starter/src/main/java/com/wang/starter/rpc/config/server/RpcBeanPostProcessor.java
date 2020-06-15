@@ -1,8 +1,6 @@
 package com.wang.starter.rpc.config.server;
 
 import com.wang.starter.rpc.config.annotation.RpcComponent;
-import com.wang.starter.rpc.rpckids.common.IMessageHandler;
-import com.wang.starter.rpc.rpckids.server.ServerMessageCollector;
 
 import org.springframework.aop.support.AopUtils;
 import org.springframework.beans.BeansException;
@@ -39,11 +37,7 @@ public class RpcBeanPostProcessor implements BeanPostProcessor {
 //        }
         RpcComponent annotation = clazz.getAnnotation(RpcComponent.class);
         if (annotation != null) {
-            if (bean instanceof IMessageHandler) {
-                serverMessageCollector.register(annotation.name(), annotation.requestType(), (IMessageHandler) bean);
-            } else {
-                serverMessageCollector.registerBean(bean);
-            }
+            serverMessageCollector.registerBean(bean);
         }
         return bean;
     }

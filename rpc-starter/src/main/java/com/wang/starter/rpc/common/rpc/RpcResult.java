@@ -1,13 +1,12 @@
-package com.wang.starter.rpc.rpckids.common.rpc;
+package com.wang.starter.rpc.common.rpc;
 
-import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 
 import lombok.Data;
 
 /**
- * <p>Package:com.wang.starter.rpc.rpckids.common.rpc</p>
+ * <p>Package:com.wang.starter.rpc.config.common.rpc</p>
  * <p>Description: </p>
  * <p>Company: com.dfire</p>
  *
@@ -17,10 +16,12 @@ import lombok.Data;
 @Data
 public class RpcResult {
 
-    private Map<String,Object> attachments = new HashMap<>();
+    private Map<String, Object> attachments = new HashMap<>();
 
     private String requestId;
 
     private Object result;
+
+    private String resultType;
 
 }

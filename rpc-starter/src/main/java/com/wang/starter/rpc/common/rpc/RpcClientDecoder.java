@@ -1,8 +1,7 @@
-package com.wang.starter.rpc.rpckids.common.rpc;
+package com.wang.starter.rpc.common.rpc;
 
 import com.alibaba.fastjson.JSON;
-import com.wang.starter.rpc.rpckids.common.Charsets;
-import com.wang.starter.rpc.rpckids.common.MessageInput;
+import com.wang.starter.rpc.common.Charsets;
 
 import java.util.List;
 
@@ -12,24 +11,27 @@ import io.netty.handler.codec.DecoderException;
 import io.netty.handler.codec.ReplayingDecoder;
 
 /**
- * <p>Package:com.wang.starter.rpc.rpckids.common.rpc</p>
+ * <p>Package:com.wang.starter.rpc.config.common.rpc</p>
  * <p>Description: </p>
  * <p>Company: com.dfire</p>
  *
  * @author baiyundou
- * @date 2020/6/13 15:24
+ * @date 2020/6/13 16:37
  */
-public class RpcServerDecoder extends ReplayingDecoder<MessageInput> {
+public class RpcClientDecoder extends ReplayingDecoder<RpcResult> {
 
     @Override
     protected void decode(ChannelHandlerContext ctx, ByteBuf in, List<Object> out) {
-//        String requestId = readStr(in);
-//        String type = readStr(in);
-//        String content = readStr(in);
-//        out.add(new MessageInput(type, rquestId, content));
         String content = readStr(in);
-        RpcInvocation rpcInvocation = JSON.parseObject(content, RpcInvocation.class);
-        out.add(rpcInvocation);
+        RpcResult rpcResult = JSON.parseObject(content, RpcResult.class);
+        try {
+            Class<?> aClass = Class.forName(rpcResult.getResultType());
+            Object object = JSON.parseObject(rpcResult.getResult().toString(), aClass);
+            rpcResult.setResult(object);
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        out.add(rpcResult);
     }
 
     private String readStr(ByteBuf in) {
@@ -43,3 +45,4 @@ public class RpcServerDecoder extends ReplayingDecoder<MessageInput> {
     }
 
 }
+

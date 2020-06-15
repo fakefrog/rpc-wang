@@ -18,7 +18,7 @@
         <module>rpc-demo/rpc-client-demo</module>
         <module>rpc-demo/rpc-common-demo</module>
         <module>rpc-starter</module>
-<!--        <module>rpc-all</module>-->
+        <!--        <module>rpc-all</module>-->
     </modules>
 
     <dependencies>
@@ -52,6 +52,12 @@
             <groupId>org.javassist</groupId>
             <artifactId>javassist</artifactId>
             <version>3.26.0-GA</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>2.2.4</version>
         </dependency>
 
         <dependency>

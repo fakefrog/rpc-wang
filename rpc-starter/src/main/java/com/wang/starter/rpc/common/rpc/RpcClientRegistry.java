@@ -1,9 +1,9 @@
-package com.wang.starter.rpc.rpckids.common.rpc;
+package com.wang.starter.rpc.common.rpc;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class RpcRegistry {
+public class RpcClientRegistry {
 
     private Map<Class<?>, Object> registryClasses = new ConcurrentHashMap<>();
 

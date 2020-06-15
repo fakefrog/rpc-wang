@@ -1,49 +1,50 @@
 package com.wang.demo.client.config;
 
 
-import com.wang.starter.rpc.rpckids.client.RPCClient;
-import com.wang.starter.rpc.rpckids.client.RPCException;
+import com.wang.common.demo.ITestService;
 import com.wang.common.demo.domain.ExpRequest;
 import com.wang.common.demo.domain.ExpResponse;
+import com.wang.starter.rpc.config.client.RPCClient;
+import com.wang.starter.rpc.common.rpc.RpcInvocation;
 
+import java.lang.reflect.Method;
+
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 public class DemoClient {
 
-	private RPCClient client;
+    private RPCClient client;
 
-	public DemoClient(RPCClient client) {
-		this.client = client;
-		this.client.rpc("fib_res", Long.class).rpc("exp_res", ExpResponse.class);
-	}
+    public DemoClient(RPCClient client) {
+        this.client = client;
+        this.client.rpc("fib_res", Long.class).rpc("exp_res", ExpResponse.class);
+    }
 
-	public long fib(int n) {
-		return (Long) client.send("fib", n);
-	}
+    public ExpResponse sendInvocation() {
+        RpcInvocation rpcInvocation = new RpcInvocation();
+        try {
+            rpcInvocation.setMethod("exp");
+            rpcInvocation.setInterfaceName(ITestService.class.getCanonicalName());
+            ExpRequest expRequest = new ExpRequest(2, 1);
+            Object[] objects = new Object[1];
+            objects[0] = expRequest;
+            rpcInvocation.setArgs(objects);
+            String[] args = new String[1];
+            args[0] = ExpRequest.class.getCanonicalName();
+            rpcInvocation.setArgsType(args);
+        } catch (Exception e) {
+            log.error("error,", e);
+        }
+        return (ExpResponse) client.send(rpcInvocation);
+    }
 
-	public ExpResponse exp(int base, int exp) {
-		return (ExpResponse) client.send("exp", new ExpRequest(base, exp));
-	}
-
-	public static void main(String[] args) throws InterruptedException {
-		RPCClient client = new RPCClient("localhost", 8888);
-		DemoClient demo = new DemoClient(client);
-		for (int i = 0; i < 30; i++) {
-			try {
-				System.out.printf("fib(%d) = %d\n", i, demo.fib(i));
-				Thread.sleep(100);
-			} catch (RPCException e) {
-				i--; // retry
-			}
-		}
-		for (int i = 0; i < 30; i++) {
-			try {
-				ExpResponse res = demo.exp(2, i);
-				Thread.sleep(100);
-				System.out.printf("exp2(%d) = %d cost=%dns\n", i, res.getValue(), res.getCostInNanos());
-			} catch (RPCException e) {
-				i--; // retry
-			}
-		}
-		client.close();
-	}
+    public static void main(String[] args) throws InterruptedException {
+        RPCClient client = new RPCClient("localhost", 8888);
+        DemoClient demo = new DemoClient(client);
+        ExpResponse expResponse = demo.sendInvocation();
+        System.out.println(expResponse);
+        client.close();
+    }
 
 }

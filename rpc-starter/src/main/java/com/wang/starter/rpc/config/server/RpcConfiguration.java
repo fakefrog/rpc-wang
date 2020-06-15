@@ -1,8 +1,5 @@
 package com.wang.starter.rpc.config.server;
 
-import com.wang.starter.rpc.rpckids.server.ServerMessageCollector;
-import com.wang.starter.rpc.rpckids.server.RPCServer;
-
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -37,10 +34,10 @@ public class RpcConfiguration {
         return rpcServer;
     }
 
-/*    @Bean
-    public RpcBeanPostProcessor rpcBeanPostProcessor() {
-        return new RpcBeanPostProcessor(messageCollector());
-    }*/
+    /*    @Bean
+        public RpcBeanPostProcessor rpcBeanPostProcessor() {
+            return new RpcBeanPostProcessor(messageCollector());
+        }*/
     @Bean
     public RpcBeanPostProcessor rpcBeanPostProcessor() {
         return new RpcBeanPostProcessor();

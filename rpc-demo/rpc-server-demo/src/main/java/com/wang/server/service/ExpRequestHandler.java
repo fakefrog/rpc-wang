@@ -1,13 +1,14 @@
+/*
 package com.wang.server.service;
 
-import com.wang.starter.rpc.config.annotation.RpcComponent;
-import com.wang.starter.rpc.rpckids.common.IMessageHandler;
-import com.wang.starter.rpc.rpckids.common.MessageOutput;
 import com.wang.common.demo.domain.ExpRequest;
 import com.wang.common.demo.domain.ExpResponse;
+import com.wang.starter.rpc.config.common.IMessageHandler;
+import com.wang.starter.rpc.config.common.MessageOutput;
 
 import io.netty.channel.ChannelHandlerContext;
 
+*/
 /**
  * <p>Package:com.wang.starter.starter.starter.rpckids.demo</p>
  * <p>Description: </p>
@@ -15,8 +16,9 @@ import io.netty.channel.ChannelHandlerContext;
  *
  * @author baiyundou
  * @date 2020/6/12 2:35
- */
-@RpcComponent(name = "exp",requestType = ExpRequest.class)
+ *//*
+
+//@RpcComponent(name = "exp",requestType = ExpRequest.class)
 public class ExpRequestHandler implements IMessageHandler<ExpRequest> {
 
     @Override
@@ -32,4 +34,4 @@ public class ExpRequestHandler implements IMessageHandler<ExpRequest> {
         ctx.writeAndFlush(new MessageOutput(requestId, "exp_res", new ExpResponse(res, cost)));
     }
 
-}
+}*/
