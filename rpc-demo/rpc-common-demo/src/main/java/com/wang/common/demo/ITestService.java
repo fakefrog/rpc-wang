@@ -15,7 +15,7 @@ import java.util.List;
  */
 public interface ITestService {
 
-    String fly();
+    String fly(String name);
 
     ExpResponse exp(ExpRequest expRequest);
 

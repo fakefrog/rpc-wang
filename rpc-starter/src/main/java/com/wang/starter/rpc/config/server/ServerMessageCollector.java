@@ -82,7 +82,11 @@ public class ServerMessageCollector extends ChannelInboundHandlerAdapter {
             Class[] params = new Class[args.length];
             for (int i = 0; i < args.length; i++) {
                 params[i] = Class.forName(rpcInvocation.getArgsType()[i]);
-                realArgs[i] = JSON.parseObject(args[i].toString(), params[i]);
+                if(params[i].equals(String.class)){
+                    realArgs[i] = args[i].toString();
+                }else {
+                    realArgs[i] = JSON.parseObject(args[i].toString(), params[i]);
+                }
             }
             Method suitableMethod = serverInterfaceInfo.getSuitableMethod(rpcInvocation);
             RpcResult rpcResult = new RpcResult();

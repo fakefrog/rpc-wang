@@ -4,6 +4,7 @@ import com.wang.starter.rpc.config.annotation.RpcReference;
 import com.wang.starter.rpc.config.client.RpcReferenceAnnotationBeanPostProcessor;
 import com.wang.starter.rpc.config.client.RpcReferenceRegistry;
 
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -19,11 +20,13 @@ import org.springframework.context.annotation.Configuration;
 public class BaseRpcConfiguration {
 
     @Bean
+    @ConditionalOnProperty(prefix = "rpc.starter",name = "consumer",havingValue = "true")
     public RpcReferenceAnnotationBeanPostProcessor rpcReferenceAnnotationBeanPostProcessor(){
         return new RpcReferenceAnnotationBeanPostProcessor(RpcReference.class);
     }
 
     @Bean
+    @ConditionalOnProperty(prefix = "rpc.starter",name = "consumer",havingValue = "true")
     public RpcReferenceRegistry rpcReferenceRegistry(){
         return new RpcReferenceRegistry();
     }

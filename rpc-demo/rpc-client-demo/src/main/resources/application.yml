@@ -1,2 +1,4 @@
 rpc:
   package:
+  starter:
+    consumer: true

@@ -1,9 +1,8 @@
 package com.wang.starter.rpc.config.server;
 
-import com.wang.starter.rpc.config.annotation.RpcReference;
-import com.wang.starter.rpc.config.client.RpcReferenceAnnotationBeanPostProcessor;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -12,8 +11,6 @@ import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
-
-import javax.annotation.Resource;
 
 /**
  * <p>Package:com.wang.starter.starter.starter</p>
@@ -24,16 +21,17 @@ import javax.annotation.Resource;
  * @date 2020/6/12 0:07
  */
 @Configuration
-@EnableConfigurationProperties(RpcProperties.class)
+@EnableConfigurationProperties(RpcServerProperties.class)
 public class RpcConfiguration {
 
     @Autowired
-    private RpcProperties rpcProperties;
+    private RpcServerProperties mRpcServerProperties;
 
     @Bean
+    @ConditionalOnProperty(prefix = "rpc.starter",name = "provider",havingValue = "true")
     public RPCServer rpcServer() {
-        RPCServer rpcServer = new RPCServer(rpcProperties.getIp(), rpcProperties.getPort(),
-                rpcProperties.getIoThreads(), messageCollector());
+        RPCServer rpcServer = new RPCServer(mRpcServerProperties.getIp(), mRpcServerProperties.getPort(),
+                mRpcServerProperties.getIoThreads(), messageCollector());
         rpcServer.start();
         return rpcServer;
     }
@@ -43,19 +41,22 @@ public class RpcConfiguration {
             return new RpcBeanPostProcessor(messageCollector());
         }*/
     @Bean
+    @ConditionalOnProperty(prefix = "rpc.starter",name = "provider",havingValue = "true")
     public RpcBeanPostProcessor rpcBeanPostProcessor() {
         return new RpcBeanPostProcessor();
     }
 
     @Bean
+    @ConditionalOnProperty(prefix = "rpc.starter",name = "provider",havingValue = "true")
     public ServerMessageCollector messageCollector() {
         return new ServerMessageCollector(rpcThreadPoolExecutor());
     }
 
     @Bean
+    @ConditionalOnProperty(prefix = "rpc.starter",name = "provider",havingValue = "true")
     public ThreadPoolExecutor rpcThreadPoolExecutor() {
         BlockingQueue<Runnable> queue = new ArrayBlockingQueue<>(1000);
-        return new ThreadPoolExecutor(1, rpcProperties.getWorkerThreads(), 30, TimeUnit.SECONDS, queue, new RpcThreadFactory(),
+        return new ThreadPoolExecutor(1, mRpcServerProperties.getWorkerThreads(), 30, TimeUnit.SECONDS, queue, new RpcThreadFactory(),
                 new ThreadPoolExecutor.CallerRunsPolicy());
     }
 

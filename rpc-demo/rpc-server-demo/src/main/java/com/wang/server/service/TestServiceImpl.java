@@ -26,9 +26,9 @@ import javax.swing.plaf.synth.SynthSpinnerUI;
 public class TestServiceImpl implements ITestService {
 
     @Override
-    public String fly() {
+    public String fly(String name) {
 
-        return "I believe I can fly!";
+        return name + ": I believe I can fly!";
 
     }
 

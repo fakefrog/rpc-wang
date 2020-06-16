@@ -57,7 +57,6 @@ public class ClientMessageCollector extends ChannelInboundHandlerAdapter {
             RpcFuture<Object> future = (RpcFuture<Object>) pendingTasks.remove(rpcResult.getRequestId());
             future.success(o);
         }
-
     }
 
     @Override
