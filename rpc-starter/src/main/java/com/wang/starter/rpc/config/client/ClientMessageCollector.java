@@ -19,14 +19,15 @@ public class ClientMessageCollector extends ChannelInboundHandlerAdapter {
 
     private RPCClient client;
 
-    private ChannelHandlerContext context;
+    private volatile ChannelHandlerContext context;
 
-    private ConcurrentMap<String, RpcFuture<?>> pendingTasks = new ConcurrentHashMap<>();
+    private static ConcurrentMap<String, RpcFuture<?>> pendingTasks = new ConcurrentHashMap<>();
 
     private Throwable ConnectionClosed = new Exception("starter connection not active error");
 
-    public ClientMessageCollector(RPCClient client) {
+    public ClientMessageCollector(RPCClient client,ConcurrentMap<String, RpcFuture<?>> pendingTasks) {
         this.client = client;
+        this.pendingTasks = pendingTasks;
     }
 
     @Override
@@ -71,7 +72,7 @@ public class ClientMessageCollector extends ChannelInboundHandlerAdapter {
         }
     }
 
-    public <T> RpcFuture<T> send(RpcInvocation rpcInvocation) {
+/*    public <T> RpcFuture<T> send(RpcInvocation rpcInvocation) {
         ChannelHandlerContext ctx = context;
         RpcFuture<T> future = new RpcFuture<T>();
         if (ctx != null) {
@@ -83,5 +84,5 @@ public class ClientMessageCollector extends ChannelInboundHandlerAdapter {
             future.fail(ConnectionClosed);
         }
         return future;
-    }
+    }*/
 }

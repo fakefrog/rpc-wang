@@ -18,13 +18,18 @@ public class RpcClientRegistry {
         String key = host + "_" + port;
         RPCClient rpcClient = rpcClientMap.computeIfAbsent(key, k -> {
             RPCClient client = new RPCClient(host, port);
-            Runtime.getRuntime().addShutdownHook(new Thread(() -> {
-                try {
-                    client.close();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }));
+            try {
+                RPCClient clientTmp = client;
+                Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+                    try {
+                        clientTmp.close();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             return client;
         });
         return rpcClient;

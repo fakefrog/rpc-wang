@@ -21,7 +21,7 @@ public class DemoClient {
         this.client.rpc("fib_res", Long.class).rpc("exp_res", ExpResponse.class);
     }
 
-    public ExpResponse sendInvocation() {
+/*    public ExpResponse sendInvocation() {
         RpcInvocation rpcInvocation = new RpcInvocation();
         try {
             rpcInvocation.setMethod("exp");
@@ -37,13 +37,13 @@ public class DemoClient {
             log.error("error,", e);
         }
         return (ExpResponse) client.send(rpcInvocation);
-    }
+    }*/
 
     public static void main(String[] args) throws InterruptedException {
         RPCClient client = new RPCClient("localhost", 8888);
         DemoClient demo = new DemoClient(client);
-        ExpResponse expResponse = demo.sendInvocation();
-        System.out.println(expResponse);
+//        ExpResponse expResponse = demo.sendInvocation();
+//        System.out.println(expResponse);
         client.close();
     }
 
