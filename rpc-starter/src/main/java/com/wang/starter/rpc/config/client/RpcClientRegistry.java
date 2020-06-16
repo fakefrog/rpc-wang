@@ -1,7 +1,5 @@
 package com.wang.starter.rpc.config.client;
 
-import com.wang.common.demo.domain.ExpResponse;
-
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -18,7 +16,17 @@ public class RpcClientRegistry {
 
     public static synchronized RPCClient addRpcClient(String host, int port) {
         String key = host + "_" + port;
-        RPCClient rpcClient = rpcClientMap.computeIfAbsent(key, k -> new RPCClient(host, port));
+        RPCClient rpcClient = rpcClientMap.computeIfAbsent(key, k -> {
+            RPCClient client = new RPCClient(host, port);
+            Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+                try {
+                    client.close();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }));
+            return client;
+        });
         return rpcClient;
     }
 
