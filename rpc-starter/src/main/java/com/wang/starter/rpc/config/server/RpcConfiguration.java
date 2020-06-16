@@ -1,5 +1,9 @@
 package com.wang.starter.rpc.config.server;
 
+import com.wang.starter.rpc.config.annotation.RpcReference;
+import com.wang.starter.rpc.config.client.RpcReferenceAnnotationBeanPostProcessor;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -23,7 +27,7 @@ import javax.annotation.Resource;
 @EnableConfigurationProperties(RpcProperties.class)
 public class RpcConfiguration {
 
-    @Resource
+    @Autowired
     private RpcProperties rpcProperties;
 
     @Bean

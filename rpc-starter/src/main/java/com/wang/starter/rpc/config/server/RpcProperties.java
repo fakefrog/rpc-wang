@@ -16,6 +16,10 @@ import lombok.Data;
 @Data
 public class RpcProperties {
 
+    {
+        System.out.println(1);
+    }
+
     private static final String DEFAULT_IP = "127.0.0.1";
 
     private static final int DEFAULT_PORT = 8888;

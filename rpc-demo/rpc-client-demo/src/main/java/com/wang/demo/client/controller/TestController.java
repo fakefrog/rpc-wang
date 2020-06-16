@@ -23,6 +23,6 @@ public class TestController {
 
     @RequestMapping("/test")
     public String rpcFlows() {
-        return "";
+        return testService.fly();
     }
 }
